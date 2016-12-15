@@ -18,19 +18,20 @@ function createHAR(address, title, startTime, resources)
 	}
 
         entries.push({
-            startedDateTime: request.time.toISOString(),
-            time: endReply.time - request.time,
+            //startedDateTime: request.time.toISOString(),
+            //time: endReply.time - request.time,
             request: {
-                method: request.method,
-                url: request.url,
+                //method: request.method,
+                url: request.url/*,
                 httpVersion: "HTTP/1.1",
                 cookies: [],
                 headers: request.headers,
                 queryString: [],
                 headersSize: -1,
-                bodySize: -1
+                bodySize: -1*/
             },
             response: {
+                /*
                 status: endReply.status,
                 statusText: endReply.statusText,
                 httpVersion: "HTTP/1.1",
@@ -39,14 +40,14 @@ function createHAR(address, title, startTime, resources)
                 redirectURL: "",
                 headersSize: -1,
                 bodySize: startReply.bodySize,
+                */
                 content: {
                     size: startReply.bodySize,
-                    mimeType: endReply.contentType
+                    //mimeType: endReply.contentType
                 }
-            },
+            }/*,
             cache: {},
             timings: {
-                blocked: 0,
                 dns: -1,
                 connect: -1,
                 send: 0,
@@ -55,11 +56,13 @@ function createHAR(address, title, startTime, resources)
                 ssl: -1
             },
             pageref: address
+            */
         });
     });
 
     return {
         log: {
+            /*
             version: '1.2',
             creator: {
                 name: "PhantomJS",
@@ -74,6 +77,7 @@ function createHAR(address, title, startTime, resources)
                     onLoad: page.endTime - page.startTime
                 }
             }],
+            */
             entries: entries
         }
     };
