@@ -1,18 +1,41 @@
-const fs = require("fs");
-const Nightmare = require("nightmare");
-const harPlugin = require("nightmare-har-plugin");
+const nightmare = require("./nightmare");
+const firebase = require("./firebase");
 const parseHAR = require("./parseHAR");
 
-harPlugin.install(Nightmare);
+function receiveHAR (har) {
+	var data = parseHAR(har);
+	store(data);
+}
 
-var options = Object.assign({}, harPlugin.getDevtoolsOptions());
+function makeTimestamp () {
+	var d = new Date();
+	var min = d.getMinutes();
+	d.setMinutes(min - min % 15);
+	d.setSeconds(0);
+	d.setMilliseconds(0);
+	d.toISOString();
+	return d.toISOString().slice(0,-8);
+}
 
-var nightmare = Nightmare(options);
+function store(data) {
+	var timestamp = makeTimestamp();
+	var db = firebase.database();
+	var ref = db.ref(`reports/${timestamp}`);
+	if (ref) {
+		ref.set(data)
+			.then(() => {
+				var json = JSON.stringify(data, null, "\t");
+				console.log(json);
+				db.goOffline();
+			})
+			.catch((error) => {
+				console.error(error);
+				db.goOffline();
+			});
+	}
+	else {
+		console.log("no ref to firebase");
+	}
+}
 
-nightmare
-	.waitForDevtools()
-	.goto("http://www.dr.dk")
-	.getHAR()
-	.end()
-	.then((result) => console.log(JSON.stringify(parseHAR(result), null, "\t")))
-	.catch((error) => console.error(error));
+nightmare(receiveHAR);
