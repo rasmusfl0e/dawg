@@ -24,8 +24,6 @@ function store(data) {
 	if (ref) {
 		ref.set(data)
 			.then(() => {
-				var json = JSON.stringify(data, null, "\t");
-				console.log(json);
 				db.goOffline();
 			})
 			.catch((error) => {
