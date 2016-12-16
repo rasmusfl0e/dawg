@@ -14,7 +14,7 @@ function makeTimestamp () {
 	d.setSeconds(0);
 	d.setMilliseconds(0);
 	d.toISOString();
-	return d.toISOString().slice(0,-8);
+	return d.toISOString().slice(0,-8).replace(/-|T/g, "/");
 }
 
 function store(data) {
