@@ -1,23 +1,7 @@
-var contexts = {
-	"marketing": [
-		/^https?:\/\/animate\.adobe\.com/i,
-		/^https?:\/\/downol\.dr\.dk\/download\/Forside\//i,
-		/^https?:\/\/www\.dr\.dk\/(drwebstat\/adspaces\.js|creatives)/i,
-		/^https?:\/\/(?:[a-z-0-9_]+\.)?cloudflare\.com/
-	],
-	"statistics": [
-		/^https?:\/\/(?:[a-z-0-9_]+\.)?(google-analytics\.com|tns-gallup\.dk|hit\.gemius\.pl|krxd\.net|cxense\.com|doipanel\.dk|g\.doubleclick\.net|newrelic\.com|nr-data\.net|ensighten.com|dr\.dk\/drwebstat|demdex\.net|d3\.sc\.omtrdc\.net)/i,
-		/^https?:\/\/www\.dr\.dk\/drdk-ensighten\/Bootstrap\.js/i
-	],
-	"content": [
-		/^https?:\/\/(www|asset)\.dr\.dk/i
-	]
-};
-
-function matchContext (url) {
-	for (let context in contexts) {
-		if (contexts[context].some((reg) => url.match(reg))) {
-			return context;
+function matchGroup (url, config) {
+	for (var i = 0, l = config.length; i < l; i++) {
+		if (config[i].filters && config[i].filters.some((reg) => url.match(reg))) {
+			return config[i].name;
 		}
 	}
 	return "unknown";
@@ -32,7 +16,7 @@ function kb (value) {
 	return parseFloat((value/1024).toFixed(1));
 }
 
-module.exports = function (har) {
+module.exports = function (har, config) {
 
 	// pick just the bits we want
 	var entries = (har.log && har.log.entries || har.entries).map(
@@ -46,19 +30,19 @@ module.exports = function (har) {
 	// group requests by context
 	var details = entries.reduce(
 		(result, entry) => {
-			var context = matchContext(entry.url);
-			if (!(context in result)) {
-				result[context] = [];
+			var group = matchGroup(entry.url, config);
+			if (!(group in result)) {
+				result[group] = [];
 			}
-			result[context].push(entry);
+			result[group].push(entry);
 			return result;
 		},
 		{}
 	);
 
 	// tally up requests
-	var summaryData = Object.keys(details).reduce((result, context) => {
-		result[context] = details[context].reduce((subresult, { url, size, compression }) => {
+	var summaryData = Object.keys(details).reduce((result, group) => {
+		result[group] = details[group].reduce((subresult, { url, size, compression }) => {
 			const domain = getDomain(url);
 			if (subresult.domains.indexOf(domain) < 0) {
 				subresult.domains.push(domain);
@@ -73,9 +57,9 @@ module.exports = function (har) {
 	}, {});
 
 	// make a human readable summary
-	var summary = Object.keys(summaryData).reduce((result, context) => {
-		var { size, compressed, requests, domains } = summaryData[context];
-		result[context] = {
+	var summary = Object.keys(summaryData).reduce((result, group) => {
+		var { size, compressed, requests, domains } = summaryData[group];
+		result[group] = {
 			requests,
 			"size (kb)": kb(size),
 			"compressed (kb)": kb(compressed),

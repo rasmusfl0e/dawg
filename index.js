@@ -1,10 +1,21 @@
 const nightmare = require("./nightmare");
 const firebase = require("./firebase");
 const parseHAR = require("./parseHAR");
+const config = require("./config.json");
 
-function receiveHAR (har) {
-	var data = parseHAR(har);
-	store(data);
+config.forEach(
+	({name, filters}) => filters.forEach(
+		(filter, index) => { filters[index] = new RegExp(filter, "i"); }
+	)
+);
+
+function processMeaurements ({har, dimensions}) {
+	if (har) {
+		var data = parseHAR(har, config);
+		console.log(data);
+	}
+	console.log(dimensions);
+	//store(data);
 }
 
 function makeTimestamp () {
@@ -28,7 +39,6 @@ function store(data) {
 			})
 			.catch((error) => {
 				console.error(error);
-				db.goOffline();
 			});
 	}
 	else {
@@ -36,4 +46,4 @@ function store(data) {
 	}
 }
 
-nightmare(receiveHAR);
+nightmare(processMeaurements, config);

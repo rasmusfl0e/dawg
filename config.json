@@ -1,0 +1,27 @@
+[
+	{
+		"name": "marketing",
+		"filters": [
+			"^https?://animate\\.adobe\\.com",
+			"^https?://downol\\.dr\\.dk/download/Forside/",
+			"^https?://www\\.dr\\.dk/(drwebstat/adspaces\\.js|creatives)",
+			"^https?://(?:[a-z-0-9_]+\\.)?cloudflare\\.com"
+		],
+		"selector": ".banner-ad-top-wrapper, [id^=\"marketing-banner-\"]"
+	},
+	{
+		"name": "statistics",
+		"filters": [
+			"^https?://(?:[a-z-0-9_]+\\.)?(google-analytics\\.com|tns-gallup\\.dk|hit\\.gemius\\.pl|krxd\\.net|cxense\\.com|doipanel\\.dk|g\\.doubleclick\\.net|newrelic\\.com|nr-data\\.net|ensighten.com|dr\\.dk/drwebstat|demdex\\.net|d3\\.sc\\.omtrdc\\.net)",
+			"^https?://www\\.dr\\.dk/drdk-ensighten/Bootstrap\\.js"
+		],
+		"selector": null
+	},
+	{
+		"name": "content",
+		"filters": [
+			"^https?://(www|asset)\\.dr\\.dk"
+		],
+		"selector": ".site-wrapper"
+	}
+]
