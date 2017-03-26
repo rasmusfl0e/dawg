@@ -15,7 +15,7 @@ function processMeaurements ({har, dimensions}) {
 		console.log(data);
 	}
 	console.log(dimensions);
-	//store(data);
+	store(data);
 }
 
 function makeTimestamp () {
