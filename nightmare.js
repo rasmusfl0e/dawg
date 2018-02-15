@@ -11,36 +11,40 @@ module.exports = function (callback, config) {
 	var measurements = {};
 	nightmare
 	.waitForDevtools()
-	.goto("http://www.dr.dk")
+	.goto(config.url)
 	// Retrieve real estate data
 	.evaluate((config) => {
-		
+
 		function getElements(selector) {
 			return Array.prototype.slice.call(document.querySelectorAll(selector));
 		}
-		
+
 		function getPixels (element) {
 			var rect = element.getBoundingClientRect();
 			return rect.width * rect.height;
 		}
-		
-		return config.reduce(
+
+		function getElementPixels (selector) {
+			return getElements(selector).reduce(
+				(sum, element) => sum + getPixels(element),
+				0
+			);
+		}
+
+		return config.categories.reduce(
 			(dimensions, {name, selector}) => {
-				dimensions[name] = (selector) ? getElements(selector).reduce(
-						(sum, element) => sum + getPixels(element),
-						0
-					) : 0;
+				dimensions[name] = (selector) ? getElementPixels(selector) : 0;
 				return dimensions;
 			},
 			{
 				page: getPixels(document.documentElement)
 			}
 		);
-		
+
 	}, config)
 	.then((dimensions) => {
 		measurements.dimensions = dimensions;
-		
+
 		// Retrieve HAR data
 		nightmare.getHAR()
 		.end()
@@ -48,7 +52,7 @@ module.exports = function (callback, config) {
 			measurements.har = har;
 			callback(measurements);
 		});
-		
+
 	})
 	.catch((error) => console.error(error));
 };

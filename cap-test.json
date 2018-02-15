@@ -1,0 +1,18 @@
+load https://www.dr.dk
+fail { Error: connect ECONNREFUSED 127.0.0.1:9222
+    at Object._errnoException (util.js:999:13)
+    at _exceptionWithHostPort (util.js:1020:20)
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1207:14)
+  errno: 'ECONNREFUSED',
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 9222 } https://www.dr.dk
+{ log: 
+   { version: '1.2',
+     creator: 
+      { name: 'Chrome HAR Capturer',
+        version: '0.11.0',
+        comment: 'https://github.com/cyrus-and/chrome-har-capturer' },
+     pages: [],
+     entries: [] } }

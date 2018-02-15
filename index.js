@@ -3,7 +3,7 @@ const firebase = require("./firebase");
 const parseHAR = require("./parseHAR");
 const config = require("./config.json");
 
-config.forEach(
+config.categories.forEach(
 	({name, filters}) => filters.forEach(
 		(filter, index) => { filters[index] = new RegExp(filter, "i"); }
 	)
@@ -12,7 +12,7 @@ config.forEach(
 function processMeaurements ({har, dimensions}) {
 	if (har) {
 		var data = parseHAR(har, config);
-		console.log(data);
+		console.log(JSON.stringify(data, null, "\t"));
 	}
 	console.log(dimensions);
 	store(data);

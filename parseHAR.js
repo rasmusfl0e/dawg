@@ -1,7 +1,7 @@
-function matchGroup (url, config) {
-	for (var i = 0, l = config.length; i < l; i++) {
-		if (config[i].filters && config[i].filters.some((reg) => url.match(reg))) {
-			return config[i].name;
+function matchGroup (url, categories) {
+	for (var i = 0, l = categories.length; i < l; i++) {
+		if (categories[i].filters && categories[i].filters.some((reg) => url.match(reg))) {
+			return categories[i].name;
 		}
 	}
 	return "unknown";
@@ -30,7 +30,7 @@ module.exports = function (har, config) {
 	// group requests by context
 	var details = entries.reduce(
 		(result, entry) => {
-			var group = matchGroup(entry.url, config);
+			var group = matchGroup(entry.url, config.categories);
 			if (!(group in result)) {
 				result[group] = [];
 			}

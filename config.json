@@ -1,29 +1,48 @@
-[
-	{
-		"name": "marketing",
-		"filters": [
-			"^https?://animate\\.adobe\\.com",
-			"^https?://downol\\.dr\\.dk/download/Forside/",
-			"^https?://www\\.dr\\.dk/(drwebstat/adspaces\\.js|creatives)",
-			"^https?://(?:[a-z-0-9_]+\\.)?cloudflare\\.com",
-			"^https?://(?:[a-z-0-9_]+\\.)?adservinginternational\\.com"
-		],
-		"selector": ".banner-ad-top-wrapper, [id^=\"marketing-banner-\"]"
-	},
-	{
-		"name": "statistics",
-		"filters": [
-			"^https?://(?:[a-z-0-9_]+\\.)?(google-analytics\\.com|tns-gallup\\.dk|hit\\.gemius\\.pl|krxd\\.net|cxense\\.com|doipanel\\.dk|g\\.doubleclick\\.net|newrelic\\.com|nr-data\\.net|ensighten.com|dr\\.dk/drwebstat|demdex\\.net|d3\\.sc\\.omtrdc\\.net)",
-			"^https?://www\\.dr\\.dk/drdk-ensighten/Bootstrap\\.js",
-			"^https?://(?:[a-z-0-9_]+\\.)optimizely.com"
-		],
-		"selector": null
-	},
-	{
-		"name": "content",
-		"filters": [
-			"^https?://(www|asset)\\.dr\\.dk"
-		],
-		"selector": ".site-wrapper"
-	}
-]
+{
+	"url": "https://www.dr.dk",
+	"categories": [
+		{
+			"name": "marketing",
+			"filters": [
+				"^https?://animate\\.adobe\\.com",
+				"^https?://downol\\.dr\\.dk/download/Forside/",
+				"^https?://www\\.dr\\.dk/(drwebstat/adspaces\\.js|creatives|DR\\.Common\\.Banner\\.Ads)",
+				"^https?://(?:[a-z-0-9_]+\\.)?cloudflare\\.com",
+				"^https?://(?:[a-z-0-9_]+\\.)?adservinginternational\\.com",
+				"^https?://(?:[a-z-0-9_]+\\.)?googleapis\\.com"
+			],
+			"selector": ".bg-marketing, .banner-ad-top-wrapper, .marketing-full-width, .full-bleed-banner__top, .full-bleed-banner__left, .full-bleed-banner__right"
+		},
+		{
+			"name": "statistics",
+			"filters": [
+				"^https?://www\\.dr\\.dk/drdk-ensighten",
+				"^https?://(?:[a-z-0-9_]+\\.)?google-analytics\\.com",
+				"^https?://(?:[a-z-0-9_]+\\.)?tns-gallup\\.dk",
+				"^https?://(?:[a-z-0-9_]+\\.)?hit\\.gemius\\.pl",
+				"^https?://(?:[a-z-0-9_]+\\.)?krxd\\.net",
+				"^https?://(?:[a-z-0-9_]+\\.)?cxense\\.com",
+				"^https?://(?:[a-z-0-9_]+\\.)?doipanel\\.dk",
+				"^https?://(?:[a-z-0-9_]+\\.)?g\\.doubleclick\\.net",
+				"^https?://(?:[a-z-0-9_]+\\.)?newrelic\\.com",
+				"^https?://(?:[a-z-0-9_]+\\.)?nr-data\\.net",
+				"^https?://(?:[a-z-0-9_]+\\.)?ensighten.com",
+				"^https?://(?:[a-z-0-9_]+\\.)?dr\\.dk/drwebstat",
+				"^https?://(?:[a-z-0-9_]+\\.)?(?:[a-z-0-9_]+\\.)?demdex\\.net",
+				"^https?://(?:[a-z-0-9_]+\\.)?d3\\.sc\\.omtrdc\\.net",
+				"^https?://(?:[a-z-0-9_]+\\.)?optimizely\\.com",
+				"^https?://(?:[a-z-0-9_]+\\.)?lp4\\.io",
+				"^https?://(?:[a-z-0-9_]+\\.)?everesttech\\.net"
+			],
+			"selector": null
+		},
+		{
+			"name": "content",
+			"filters": [
+				"^https?://(www|asset)\\.dr\\.dk",
+				"^https?://smooth-storage\\.aptoma\\.no"
+			],
+			"selector": "body > .container"
+		}
+	]
+}

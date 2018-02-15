@@ -10,9 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chrome-har-capturer": "^0.11.0",
     "firebase": "^3.6.4",
     "nightmare": "^2.8.1",
     "nightmare-har-plugin": "^0.9.0",
+    "puppeteer": "^1.0.0",
     "serve": "^2.0.0"
   }
 }
